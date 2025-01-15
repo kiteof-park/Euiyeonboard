@@ -1,6 +1,9 @@
 ## 학습 목표
 - URL, Http Method를 활용한 기본 라우팅 방법 학습
 - Request Body, Query Params, Path Params 사용해보기
+  - `@RequestBody` : 요청 데이터(JSON)을 객체로 변환 _- Jackson 라이브러리 사용_
+  - `@RequestParam`: URL 쿼리 문자열에 데이터를 전달 받을 때 사용
+  - `@PathVariable`: URL 경로에 포함된 변수를 매핑
 - ORM 사용
     - 엔티티 생성
     - 기본적인 CRUD 활용
