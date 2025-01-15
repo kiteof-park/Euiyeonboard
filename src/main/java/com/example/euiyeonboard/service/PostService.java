@@ -18,18 +18,20 @@ public class PostService {
 
     // 게시글 작성
     public PostResponse savePost(PostRequest postRequest){
-        Post post = Post.builder()
-                .title(postRequest.title())
-                .content(postRequest.content())
-                .build();
+//        Post post = Post.builder()
+//                .title(postRequest.title())
+//                .content(postRequest.content())
+//                .build();
+        Post post = new Post(postRequest);
 
         Post savedPost = postRepository.save(post);
 
-        return PostResponse.builder()
-                .id(savedPost.getId())
-                .title(savedPost.getTitle())
-                .content(savedPost.getContent())
-                .build();
+//        return PostResponse.builder()
+//                .id(savedPost.getId())
+//                .title(savedPost.getTitle())
+//                .content(savedPost.getContent())
+//                .build();
+        return new PostResponse(savedPost);
     }
 
     // 게시글 전체 조회
