@@ -68,4 +68,14 @@ public class PostService {
         Post updatedPost =  postRepository.save(post);
         return new PostResponse(updatedPost);
     }
+
+    // 게시글 삭제
+    public void deletePost(Long id){
+        // 해당 id의 게시글이 존재하는지 확인
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다!"));
+
+        // 게시글 삭제
+        postRepository.delete(post);
+    }
 }

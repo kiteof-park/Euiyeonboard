@@ -6,6 +6,8 @@ import com.example.euiyeonboard.dto.PostUpdateRequest;
 import com.example.euiyeonboard.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,4 +48,10 @@ public class PostController {
         return postService.updatePost(postId, postUpdateRequest);
     }
 
+    // 게시글 삭제
+    @DeleteMapping("/post/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable("postId") Long postId){
+        postService.deletePost(postId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
