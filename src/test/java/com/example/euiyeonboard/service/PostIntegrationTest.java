@@ -1,6 +1,6 @@
 package com.example.euiyeonboard.service;
 
-import com.example.euiyeonboard.dto.PostRequest;
+import com.example.euiyeonboard.dto.PostCreateRequest;
 import com.example.euiyeonboard.dto.PostResponse;
 import com.example.euiyeonboard.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ class PostIntegrationTest {
     @DisplayName("post 등록 테스트")
     void savePostTest(){
         // given
-        PostRequest request = PostRequest.builder()
+        PostCreateRequest request = PostCreateRequest.builder()
                 .title("테스트 제목이에옹")
                 .content("테스트 내용이에옹")
                 .build();
@@ -53,14 +53,14 @@ class PostIntegrationTest {
     @DisplayName("post 전체 조회 테스트")
     void getAllPostsTest(){
         // given
-        PostRequest request1 = PostRequest.builder()
+        PostCreateRequest request1 = PostCreateRequest.builder()
                 .title("테스트 제목이다옹1")
                 .content("테스트 내용이다옹1")
                 .build();
 
         postService.savePost(request1);
 
-        PostRequest request2 = PostRequest.builder()
+        PostCreateRequest request2 = PostCreateRequest.builder()
                 .title("테스트 제목이다옹2")
                 .content("테스트 내용이다옹2")
                 .build();

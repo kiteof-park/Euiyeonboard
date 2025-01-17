@@ -1,8 +1,9 @@
 package com.example.euiyeonboard.service;
 
 import com.example.euiyeonboard.domain.Post;
-import com.example.euiyeonboard.dto.PostRequest;
+import com.example.euiyeonboard.dto.PostCreateRequest;
 import com.example.euiyeonboard.dto.PostResponse;
+import com.example.euiyeonboard.dto.PostUpdateRequest;
 import com.example.euiyeonboard.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,12 @@ public class PostService {
     private final PostRepository postRepository;
 
     // 게시글 작성
-    public PostResponse savePost(PostRequest postRequest){
+    public PostResponse savePost(PostCreateRequest postCreateRequest){
 //        Post post = Post.builder()
 //                .title(postRequest.title())
 //                .content(postRequest.content())
 //                .build();
-        Post post = new Post(postRequest);
+        Post post = new Post(postCreateRequest);
 
         Post savedPost = postRepository.save(post);
 
@@ -42,11 +43,7 @@ public class PostService {
         List<PostResponse> postResponses =  new ArrayList<>();
 
         for(Post post : posts){
-            postResponses.add(PostResponse.builder()
-                    .id(post.getId())
-                    .title(post.getTitle())
-                    .content(post.getContent())
-                    .build());
+            postResponses.add(new PostResponse(post));
         }
         return postResponses;
     }
@@ -54,12 +51,21 @@ public class PostService {
     // 특정 게시글 조회
     public PostResponse getPost(Long id){
         // ToRefactor : Optional 메서드 사용해보기, get() 사용 지양하기!
-        Optional<Post> post = postRepository.findById(id);
-        return PostResponse.builder()
-                .id(post.get().getId())
-                .title(post.get().getTitle())
-                .content(post.get().getContent())
-                .build();
-    }
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다!"));
 
+        return new PostResponse(post);
+    }
+    
+    // 게시글 수정
+    public PostResponse updatePost(Long id, PostUpdateRequest postUpdateRequest){
+        // 해당 id의 게시글이 존재하는지 확인 먼저할 것
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다!"));
+        
+        // 게시글 수정
+        post.updatePost(postUpdateRequest);
+        Post updatedPost =  postRepository.save(post);
+        return new PostResponse(updatedPost);
+    }
 }
