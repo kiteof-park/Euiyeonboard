@@ -37,3 +37,12 @@
 1. REST API 설계에 맞게 API 생성
 2. Http Status Code 규약에 맞게 응답 코드 설정
 3. POSTMAN으로 만든 API에 대해 올바른 응답 테스트
+
+---
+### 제약조건 2번보고 부랴부랴 수정하기✏️
+> "Http Status Code 규약에 맞게 응답 코드 설정"
+- Controller와 Service 레이어의 메서드의 반환타입을 모두 `ResponseEntity<T>`로 변경하기
+  - 생성의 경우, `HttpStatus.CREATED` 반환(201)
+  - 조회의 경우, `HttpStatus.OK` 반환(200)
+  - 수정의 경우, `HttpStatus.OK` 반환(200)
+  - 삭제의 경우, `HttpStatus.NO_CONTENT' 반환(204)
