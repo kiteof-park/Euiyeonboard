@@ -6,6 +6,9 @@ import com.example.euiyeonboard.dto.PostResponse;
 import com.example.euiyeonboard.dto.PostUpdateRequest;
 import com.example.euiyeonboard.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,24 +44,40 @@ public class PostService {
 
     // 게시글 전체 조회
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PostResponse>> getAllPosts(){
+    public PagedModel<PostResponse> getAllPosts(Pageable pageable){
         // ToRefactor : stream() 사용해서 코드 리팩토링 가능하지 않나?
 //        List<Post> posts = postRepository.findAll();
-//
 //        List<PostResponse> postResponses =  new ArrayList<>();
 //
 //        for(Post post : posts){
 //            postResponses.add(new PostResponse(post));
 //        }
 
-        List<PostResponse> postResponses = postRepository.findAll().stream()
-                .map(PostResponse::new)
-                .toList();
+        Page<PostResponse> postResponses = postRepository.findAll(pageable)
+                .map(PostResponse::new);
 
-        return ResponseEntity.status(HttpStatus.OK).body(postResponses);
+        // return ResponseEntity.status(HttpStatus.OK).body(postResponses);
+        return new PagedModel<>(postResponses);
     }
+    
+    // 게시글 전체 조회 - 검색 키워드로 게시글 조회
+    public PagedModel<PostResponse> getPostByKeyword(String keyword, Pageable pageable){
+        Page<PostResponse> postResponses = postRepository.findByKeyword(keyword, pageable)
+                .map(PostResponse::new);
 
-    // 특정 게시글 조회
+        return new PagedModel<>(postResponses);
+    }
+    
+    // 게시글 전체 조회 - 제목에 검색 키워드가 포함된 게시글 조회
+    public PagedModel<PostResponse> getPostByTitle(String keyword, Pageable pageable){
+        Page<PostResponse> postResponses = postRepository.findByTitle(keyword, pageable)
+                .map(PostResponse::new);
+
+        return new PagedModel<>(postResponses);
+    }
+    
+
+    // 특정 게시글 조회 - id로 단건 조회
     @Transactional(readOnly = true)
     public ResponseEntity<PostResponse> getPost(Long id){
         // ToRefactor : Optional 메서드 사용해보기, get() 사용 지양하기!
