@@ -5,6 +5,9 @@ import com.example.euiyeonboard.dto.PostResponse;
 import com.example.euiyeonboard.dto.PostUpdateRequest;
 import jakarta.persistence.*;;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 
 @AllArgsConstructor     // access = AccessLevel.?
@@ -23,6 +26,10 @@ public class Post {
 
     @Column(nullable = false)
     private String content;
+
+    @CreationTimestamp
+    @Column(name="created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     // 생성자 오버로딩
     public Post(PostCreateRequest postCreateRequest) {

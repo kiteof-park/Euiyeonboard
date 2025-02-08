@@ -4,16 +4,19 @@ import com.example.euiyeonboard.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 // @Builder
 // @Getter
 public record PostResponse(
         Long id,
         String title,
-        String content
+        String content,
+        LocalDateTime createdAt
 ) {
     // 생성자 오버로딩
     public PostResponse(Post post){
-        this(post.getId(), post.getTitle(), post.getContent());
+        this(post.getId(), post.getTitle(), post.getContent(), post.getCreatedAt());
     }
 }
 
