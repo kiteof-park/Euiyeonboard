@@ -5,6 +5,7 @@ import com.example.euiyeonboard.dto.PostResponse;
 import com.example.euiyeonboard.dto.PostUpdateRequest;
 import com.example.euiyeonboard.service.PostService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +21,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board")
+@Validated      // 검색 키워드 유효성 검사를 위해 추가
 public class PostController {
+
     private final PostService postService;
 
     // 게시글 작성
@@ -42,7 +46,7 @@ public class PostController {
     // 게시글 검색 - 검색키워드가 포함된 게시글 검색
     // board/post/search?keyword="의연 최고"
     @GetMapping("/post/search")
-    public PagedModel<PostResponse> getPostByKeyword(@RequestParam String keyword,
+    public PagedModel<PostResponse> getPostByKeyword(@RequestParam @NotBlank(message = "검색 키워드는 공백 제외 1글자 이상 입력해주세요.") String keyword,
                                                      @RequestParam(name = "page", defaultValue = "1") int page,
                                                      @RequestParam(name = "size", defaultValue = "15") int size){
         if(size > 100){ size = 100; }
@@ -50,10 +54,10 @@ public class PostController {
         return postService.getPostByKeyword(keyword, pageable);
     }
 
-    // 게시글 전체 검색 - 검색키워드가 포함된 제목의 게시글 검색
+    // 게시글 검색 - 검색키워드가 포함된 제목의 게시글 검색
     // board/post/search/title?keyword="의연 최고"
     @GetMapping("/post/search/title")
-    public PagedModel<PostResponse> getPostByTitle(@RequestParam String keyword,
+    public PagedModel<PostResponse> getPostByTitle(@RequestParam @NotBlank(message = "검색 키워드는 공백 제외 1글자 이상 입력해주세요.") String keyword,
                                                    @RequestParam(name = "page", defaultValue = "1") int page,
                                                    @RequestParam(name = "size", defaultValue = "15") int size){
         if(size > 100){ size = 100; }
