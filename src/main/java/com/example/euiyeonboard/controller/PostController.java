@@ -31,18 +31,15 @@ public class PostController {
     }
 
     // 게시글 전체 조회
-        // Level3. 게시글을 조회할 때 생성시간의 값도 포함되어야 한다.
-        // Level3. 최근에 작성된 순으로 게시글이 조회되어야 한다.
-        // Level3. 데이터 조회 개수는 최대 100개까지만 할 수 있어야 한다.
     @GetMapping("/post")
     public PagedModel<PostResponse> getAllPosts(@RequestParam(name = "page", defaultValue = "1") int page,
-                                                      @RequestParam(name = "size", defaultValue = "15") int size) {
+                                                @RequestParam(name = "size", defaultValue = "15") int size) {
         if(size > 100){ size = 100; }
         Pageable pageable = PageRequest.of(page-1, size, Sort.by("createdAt").descending());
         return postService.getAllPosts(pageable);
     }
 
-    // 게시글 전체 조회 - 검색키워드가 포함된 게시글 조회
+    // 게시글 검색 - 검색키워드가 포함된 게시글 검색
     // board/post/search?keyword="의연 최고"
     @GetMapping("/post/search")
     public PagedModel<PostResponse> getPostByKeyword(@RequestParam String keyword,
@@ -53,7 +50,7 @@ public class PostController {
         return postService.getPostByKeyword(keyword, pageable);
     }
 
-    // 게시글 전체 조회 - 검색키워드가 포함된 제목의 게시글 조회
+    // 게시글 전체 검색 - 검색키워드가 포함된 제목의 게시글 검색
     // board/post/search/title?keyword="의연 최고"
     @GetMapping("/post/search/title")
     public PagedModel<PostResponse> getPostByTitle(@RequestParam String keyword,
