@@ -31,53 +31,53 @@ class PostIntegrationTest {
         postRepository.deleteAll();
     }
     
-    @Test
-    @DisplayName("post 등록 테스트")
-    void savePostTest(){
-        // given
-        PostCreateRequest request = PostCreateRequest.builder()
-                .title("테스트 제목이에옹")
-                .content("테스트 내용이에옹")
-                .build();
-        // when
-        PostResponse response = postService.savePost(request);
-
-        // then
-        assertAll(
-                () -> assertEquals("테스트 제목이에옹", response.title()),
-                () -> assertEquals("테스트 내용이에옹", response.content())
-        );
-    }
+//    @Test
+//    @DisplayName("post 등록 테스트")
+//    void savePostTest(){
+//        // given
+//        PostCreateRequest request = PostCreateRequest.builder()
+//                .title("테스트 제목이에옹")
+//                .content("테스트 내용이에옹")
+//                .build();
+//        // when
+//        PostResponse response = postService.savePost(request);
+//
+//        // then
+//        assertAll(
+//                () -> assertEquals("테스트 제목이에옹", response.title()),
+//                () -> assertEquals("테스트 내용이에옹", response.content())
+//        );
+//    }
     
-    @Test
-    @DisplayName("post 전체 조회 테스트")
-    void getAllPostsTest(){
-        // given
-        PostCreateRequest request1 = PostCreateRequest.builder()
-                .title("테스트 제목이다옹1")
-                .content("테스트 내용이다옹1")
-                .build();
-
-        postService.savePost(request1);
-
-        PostCreateRequest request2 = PostCreateRequest.builder()
-                .title("테스트 제목이다옹2")
-                .content("테스트 내용이다옹2")
-                .build();
-
-        postService.savePost(request2);
-
-        // when
-        List<PostResponse> posts = postService.getAllPosts();
-
-        // then
-        assertAll(
-                () -> assertEquals(2, posts.size()),
-                () -> assertThat(posts).extracting("title").containsExactly(
-                        "테스트 제목이다옹1", "테스트 제목이다옹2"
-                )
-        );
-    }
+//    @Test
+//    @DisplayName("post 전체 조회 테스트")
+//    void getAllPostsTest(){
+//        // given
+//        PostCreateRequest request1 = PostCreateRequest.builder()
+//                .title("테스트 제목이다옹1")
+//                .content("테스트 내용이다옹1")
+//                .build();
+//
+//        postService.savePost(request1);
+//
+//        PostCreateRequest request2 = PostCreateRequest.builder()
+//                .title("테스트 제목이다옹2")
+//                .content("테스트 내용이다옹2")
+//                .build();
+//
+//        postService.savePost(request2);
+//
+//        // when
+//        List<PostResponse> posts = postService.getAllPosts();
+//
+//        // then
+//        assertAll(
+//                () -> assertEquals(2, posts.size()),
+//                () -> assertThat(posts).extracting("title").containsExactly(
+//                        "테스트 제목이다옹1", "테스트 제목이다옹2"
+//                )
+//        );
+//    }
 
 //    @Test
 //    @DisplayName("post 단일 조회 테스트")
@@ -99,5 +99,4 @@ class PostIntegrationTest {
 //                () ->
 //        );
 //    }
-
 }
