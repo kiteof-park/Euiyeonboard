@@ -17,12 +17,17 @@ public interface PostRepository extends JpaRepository<Post, Long> {
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다!"));
     }
 
-    Page<Post> findAll(Pageable pageable);
+    List<Post> findAllByOrderByCreatedAtDesc();
 
+//    @Query("SELECT p FROM Post p ORDER BY p.createdAt DESC")
+//    List<Post> findAll();
+
+    Page<Post> findAll(Pageable pageable);
 
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword%")
     Page<Post> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:keyword%")
     Page<Post> findByTitle(@Param("keyword") String keyword, Pageable pageable);
+
 }
