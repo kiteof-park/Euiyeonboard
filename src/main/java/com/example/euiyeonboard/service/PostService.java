@@ -42,7 +42,7 @@ public class PostService {
         return ResponseEntity.status(HttpStatus.CREATED).body(new PostResponse(savedPost));
     }
 
-    // 게시글 전체 조회
+    // 게시글 전체 조회 - 페이지네이션⭕, 정렬⭕
     @Transactional(readOnly = true)
     public PagedModel<PostResponse> getAllPosts(Pageable pageable){
         // ToRefactor : stream() 사용해서 코드 리팩토링 가능하지 않나?
@@ -59,12 +59,20 @@ public class PostService {
         // return ResponseEntity.status(HttpStatus.OK).body(postResponses);
         return new PagedModel<>(postResponses);
     }
+
+    // 게시글 전체 조회 - 페이지네이션❌, 정렬⭕
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<PostResponse>> getAllPosts(){
+        List<PostResponse> postResponses = postRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(PostResponse::new)
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK).body(postResponses);
+    }
     
     // 게시글 전체 조회 - 검색 키워드로 게시글 조회
     public PagedModel<PostResponse> getPostByKeyword(String keyword, Pageable pageable){
         Page<PostResponse> postResponses = postRepository.findByKeyword(keyword, pageable)
                 .map(PostResponse::new);
-
         return new PagedModel<>(postResponses);
     }
     
@@ -72,7 +80,6 @@ public class PostService {
     public PagedModel<PostResponse> getPostByTitle(String keyword, Pageable pageable){
         Page<PostResponse> postResponses = postRepository.findByTitle(keyword, pageable)
                 .map(PostResponse::new);
-
         return new PagedModel<>(postResponses);
     }
     

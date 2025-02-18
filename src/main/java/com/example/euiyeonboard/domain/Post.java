@@ -28,7 +28,7 @@ public class Post {
     private String content;
 
     @CreationTimestamp
-    @Column(name="created_at", updatable = false)
+    @Column(name="created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     // 생성자 오버로딩
