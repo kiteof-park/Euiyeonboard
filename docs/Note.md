@@ -71,5 +71,5 @@ public PostResponse savePost(PostCreateRequest postCreateRequest){
 - 이걸 구분하는게 앞으로 해야되는 숙제겠지! 
 
 ---
-
-## at. Level3
+블로그로 옮겨갔슈
+https://velog.io/@kiteof_park/posts
